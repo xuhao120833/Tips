@@ -1,0 +1,166 @@
+一、adb 命令
+
+1、查看任务栈
+命令 dumpsys activity activities——》输出：
+
+查看字段 Task display areas in top down Z order:   栈自上往下排列
+
+Task display areas in top down Z order:
+    TaskDisplayArea DefaultTaskDisplayArea
+      overrideConfig={0.0 ?mcc0mnc ?localeList ?layoutDir ?swdp ?wdp ?hdp ?density ?lsize ?long ?ldr ?wideColorGamut ?orien ?uimode ?night ?touch ?keyb/?/? ?nav/? winConfig={ mBounds=Rect(0, 0 - 0, 0) mAppBounds=null mMaxBounds=Rect(0, 0 - 0, 0) mDisplayRotation=undefined mWindowingMode=fullscreen mDisplayWindowingMode=fullscreen mActivityType=undefined mAlwaysOnTop=undefined mRotation=undefined} ?fontWeightAdjustment}
+      mPreferredTopFocusableRootTask=Task{591cccb #15 type=standard A=1000:com.htc.luminaos:1769883801}
+      mLastFocusedRootTask=Task{591cccb #15 type=standard A=1000:com.htc.luminaos:1769883801}
+      Application tokens in top down Z order:
+      * Task{591cccb #15 type=standard A=1000:com.htc.luminaos:1769883801 U=0 visible=true visibleRequested=true mode=fullscreen translucent=false sz=1}
+        bounds=[0,0][1920,1080]
+        * ActivityRecord{eaecb9a u0 com.htc.luminaos/.activity.MainActivity t15}
+      * Task{c6f3f4d #1 type=home U=0 visible=false visibleRequested=false mode=fullscreen translucent=true sz=1}
+        bounds=[0,0][1920,1080]
+        * Task{2053634 #3 type=home A=1000:com.softwinner.firelauncher U=0 rootTaskId=1 visible=false visibleRequested=false mode=fullscreen translucent=true sz=1}
+          bounds=[0,0][1920,1080]
+          * ActivityRecord{4dbc507 u0 com.softwinner.firelauncher/.v3_Launcher t3}
+      * Task{a42354e #18 type=standard A=1000:com.htc.luminaos U=0 visible=false visibleRequested=false mode=fullscreen translucent=true sz=1}
+        bounds=[0,0][1920,1080]
+        * ActivityRecord{8e34849 u0 com.htc.luminaos/.activity.WifiActivity t18}
+
+2、查看当前的Activity
+命令 dumpsys activity top | grep "ACTIVITY"        
+
+3、查看当前的SurfaceFlinger 的缓存
+命令 dumpsys SurfaceFlinger --display
+
+4、查看当前的Activity的堆栈
+命令 dumpsys activity
+
+  Task display areas in top down Z order:
+    TaskDisplayArea DefaultTaskDisplayArea
+      mPreferredTopFocusableRootTask=Task{ec5b36c #115 type=standard A=10158:com.htc.app_launch_mode U=0 visible=true mode=fullscreen translucent=false sz=2}
+      mLastFocusedRootTask=Task{ec5b36c #115 type=standard A=10158:com.htc.app_launch_mode U=0 visible=true mode=fullscreen translucent=false sz=2}
+      Application tokens in top down Z order:
+      * Task{ec5b36c #115 type=standard A=10158:com.htc.app_launch_mode U=0 visible=true mode=fullscreen translucent=false sz=2}
+        bounds=[0,0][1440,3120]
+        * ActivityRecord{ed84d3d u0 com.htc.app_launch_mode/.MainActivity t115}
+        * ActivityRecord{61c5b7d u0 com.htc.app_launch_mode/.MainActivity t115}
+      * Task{6938da2 #1 type=home ?? U=0 visible=false mode=fullscreen translucent=true sz=1}
+        bounds=[0,0][1440,3120]
+        * Task{d8594e9 #112 type=home I=com.google.android.apps.nexuslauncher/.NexusLauncherActivity U=0 rootTaskId=1 visible=false mode=fullscreen translucent=true sz=1}
+          bounds=[0,0][1440,3120]
+          * ActivityRecord{92f632c u0 com.google.android.apps.nexuslauncher/.NexusLauncherActivity t112}
+
+5、查看应用的启动时间，毫秒级别
+命令 adb logcat | findstr Displayed         
+
+6、杀掉应用进程
+命令 am force-stop com.htc.luminaos
+
+7、发送广播
+命令 am broadcast -a com.htc.DISPLAY_SETTINGS  悬浮窗
+am broadcast -a com.htc.DISPLAY_SETTINGS --ez show true  附带布尔参数
+
+am broadcast -a com.htc.INITANGLE  0度矫正
+
+8、启动一个新的活动
+命令 adb shell 
+am start -n com.example.app/.MainActivity
+am start -n com.htc.hyk_test/.activity.MainPublicActivity 厂测公版
+am start -n com.htc.hyk_test/.activity.MainHyActivity 厂测汉影
+am start -n com.htc.luminasettings/.activity.MainActivity
+
+9、sqlite3 查看数据库
+命令 
+.tables          -- 查看所有表
+.schema          -- 查看表结构
+SELECT * FROM table_name;  -- 查看指定表的数据
+.exit            退出
+
+10、杀掉进程
+命令  am force-stop com.htc.luminaos  
+
+11、windows命令行采用Utf8编码 
+命令
+chcp 65001
+
+12、焦点调试
+命令 setprop debug.layout true
+
+13、打开USB调试开关
+setprop persist.sys.usb0device 1
+
+14、echo 5 > /sys/class/prj/mode 解决H726启动一会自动关机的问题
+
+15、查看磁盘空间
+df -h
+
+16、查看后台服务
+dumpsys activity services | grep luminaos
+
+17、同时有两个Launcher，可以disable一个，单独使用另一个。
+pm disable com.htc.luminaos 
+
+18、K10 生成APP文件夹
+python auto_generator.py ./ public  app
+
+19、查看某个Activity的View树
+dumpsys activity com.android.launcher3/.uioverrides.QuickstepLauncher
+
+20、分辨率适配
+dp ——》 分辨率不变，dpi发生变化时，保证图像大小不变。
+
+21、ExpressVPN 账号密码
+zz@hotack.cn                        密码： hotack12#
+
+22、Menu键跳转到设置
+                String settings_package = SystemProperties.get("persist.sys.settings_package","com.htc.htcpublicsettings");
+                String settings_class = SystemProperties.get("persist.sys.settings_class","com.htc.htcpublicsettings.MainActivity");
+
+23、SpecialApps
+
+settings put system ip_country_code "北美洲,BR"
+
+am broadcast -a com.htc.refreshApps
+
+24、路径
+D:\反编译\output\jadx_src\sources\com\shafa\market\filemanager\imagescan\ImageWatcherAct.java
+
+25、adb push H:\tupian /sdcard
+
+26、解压合并多个jar包
+jar -xvf jar包名字.jar（解压）
+jar -cvfM 合并后的jar包名字.jar .（移除jar包后合并）
+
+27、源码jar包路径
+X:\Allwinner\H726-A14\out\target\common\obj\JAVA_LIBRARIES
+
+28、杨工 矫正apk路径：
+Y:\Allwiner\vafocusout_sos
+
+二、知识点
+1、APP中，系统接口的代理获取方式：：
+以PackageManager packageManager = context.getPackageManager();为例子：
+不管context是ApplicationContext还是ActivityContext，最终都继承自ContextWrapper。
+android-30\android\content\ContextWrapper.java  ————》
+    @Override
+    public PackageManager getPackageManager() {
+        return mBase.getPackageManager();
+    }
+那么ContextWrapper的mBase又来自于哪里呢？？ APP启动的时候ActivityThread传入的。ActivityThread的AOSP源码如下
+frameworks\base\core\java\android\app\ActivityThread.java
+ActivityThread传入的context是ContextImpl的实例
+frameworks\base\core\java\android\app\ContextImpl.java
+通过ContextImpl找到了最终实现getPackageManager的地方：
+    @Override
+    public PackageManager getPackageManager() {
+        if (mPackageManager != null) {
+            return mPackageManager;
+        }
+
+        final IPackageManager pm = ActivityThread.getPackageManager();
+        final IPermissionManager permissionManager = ActivityThread.getPermissionManager();
+        if (pm != null && permissionManager != null) {
+            // Doesn't matter if we make more than one instance.
+            return (mPackageManager = new ApplicationPackageManager(this, pm, permissionManager));
+        }
+
+        return null;
+    }
+总结一下就是APP在启动的过程中，通过ActivityThread传入ContextImpl实例作为context，APP后续获取到的系统服务代理BinderProxy都是通过ContextImpl的实例获取的。
