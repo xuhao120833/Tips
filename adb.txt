@@ -134,6 +134,16 @@ X:\Allwinner\H726-A14\out\target\common\obj\JAVA_LIBRARIES
 28、杨工 矫正apk路径：
 Y:\Allwiner\vafocusout_sos
 
+29、恢复出厂设置
+重启按HOME键。
+
+30、启动工厂模式
+am start -n com.softwinner.tv.factorymenu/.MainActivity
+
+31、默认wifi名称、密码
+frameworks\opt\net\wifi\service\java\com\android\server\wifi\WifiApConfigStore.java
+getDefaultApConfiguration
+
 二、知识点
 1、APP中，系统接口的代理获取方式：：
 以PackageManager packageManager = context.getPackageManager();为例子：
