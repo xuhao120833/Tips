@@ -56,6 +56,7 @@ Task display areas in top down Z order:
 7、发送广播
 命令 am broadcast -a com.htc.DISPLAY_SETTINGS  悬浮窗
 am broadcast -a com.htc.DISPLAY_SETTINGS --ez show true  附带布尔参数
+am broadcast -a com.htc.DISPLAY_SETTINGS --ez show true --es type "pq_eq"
 
 am broadcast -a com.htc.INITANGLE  0度矫正
 
@@ -115,7 +116,9 @@ zz@hotack.cn                        密码： hotack12#
 
 23、SpecialApps
 
-settings put system ip_country_code "北美洲,BR"
+settings put system ip_country_code "南美洲,BR"
+
+settings get system ip_country_code
 
 am broadcast -a com.htc.refreshApps
 
@@ -143,6 +146,52 @@ am start -n com.softwinner.tv.factorymenu/.MainActivity
 31、默认wifi名称、密码
 frameworks\opt\net\wifi\service\java\com\android\server\wifi\WifiApConfigStore.java
 getDefaultApConfiguration
+
+32、命令刷机
+reboot efex
+刷机软件管理员模式打开。
+
+33、.\scrcpy  --no-audio   解决Android 14 模拟软件崩溃的问题
+
+.\scrcpy --max-size 1024 --video-bit-rate 4M --no-audio  缓解画面卡断
+
+34、Android Studio 虚拟机调试
+a、sdk目录找到emulater子目录可以调试虚拟机
+C:\Users\htc-003\AppData\Local\Android\Sdk\emulator
+
+emulator -list-avds 列出虚拟机
+
+emulator -avd Television_1080p_API_34 -verbose   启动特定虚拟机
+
+emulator -avd Television_1080p_API_34 -gpu swiftshader_indirect -verbose  使用软件渲染方式打开虚拟机
+emulator -avd Pixel_8_Pro_API_34 -gpu swiftshader_indirect -no-snapshot -verbose
+
+
+b、 虚拟机开启了没反应，很有可能是电脑GPU不支持硬件渲染，得使用软件渲染。
+ 
+35、gif  so库
+"X:\Allwinner\H726-A14\out\target\product\h726-p1\obj\SHARED_LIBRARIES\libgifplayer_jni_intermediates\libgifplayer_jni.so"
+
+\\192.168.10.107\hotack\Allwinner\H726-A14\longan\out
+
+36、RK打开图片
+am start -a android.intent.action.VIEW -d "file:///sdcard/DCIM/Camera/IMG.jpg" -n com.rockchips.mediacenter/com.rockchips.mediacenter.imageplayer.InternalImagePlayer
+
+36、源码目录
+周工X7可以直接刷726  018
+邓公目录：
+X:\Allwinner\X3AR_H726
+周工目录：
+X:\Allwinner\H726-A14
+杨工目录：
+X:\Allwinner\H713_SDK_V1.3_NEW
+
+37、矫正软件地址
+\\192.168.1.111\hotack\Allwiner\vafocusout_so\新板梯形校正apk
+tpjz_allwinner713_V1.3.6.apk
+
+38、签名文件密码：
+platformQZ.keystore  htc  密码 htc123
 
 二、知识点
 1、APP中，系统接口的代理获取方式：：
